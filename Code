@@ -1,0 +1,70 @@
+import random, requests
+
+def random_pokemon():
+    pokemon_number = random.randint(1, 1017)
+    url = 'https://pokeapi.co/api/v2/pokemon/{}/'.format(pokemon_number)
+    response = requests.get(url)
+    pokemon = response.json()
+    stats = []
+
+    for i in range(6):
+        stat_name = pokemon['stats'][i]['stat']['name']
+        base_stat = pokemon['stats'][i]['base_stat']
+        stat = {'name': stat_name, 'base_stat': base_stat}
+        stats.append(stat)
+
+    return {
+        'name': pokemon['name'],
+        'id': pokemon['id'],
+        'stats': stats
+
+
+        }
+def run():
+    my_pokemon = random_pokemon()
+    print('You were given {}'.format(my_pokemon['name']))
+    print('1. HP:', my_pokemon['stats'][0]['base_stat'])
+    print('2. Attack:', my_pokemon['stats'][1]['base_stat'])
+    print('3. Defense:', my_pokemon['stats'][2]['base_stat'])
+    print('4. Special Defense:', my_pokemon['stats'][3]['base_stat'])
+    print('5. Special Attack:', my_pokemon['stats'][4]['base_stat'])
+    print('6. Speed:', my_pokemon['stats'][5]['base_stat'])
+    stat_choice = input('Which stat do you want to use? (1, 2, 3, 4, 5 or 6) \n')
+    opponent_pokemon = random_pokemon()
+    my_stat = ''
+    opponent_stat = ''
+    print('The opponent chose {}'.format(opponent_pokemon['name']), '\n')
+    if stat_choice == '1':
+        my_stat = my_pokemon['stats'][0]['base_stat']
+        opponent_stat = opponent_pokemon['stats'][0]['base_stat']
+    elif stat_choice == '2':
+        my_stat = my_pokemon['stats'][1]['base_stat']
+        opponent_stat = opponent_pokemon['stats'][1]['base_stat']
+    elif stat_choice == '3':
+        my_stat = my_pokemon['stats'][2]['base_stat']
+        opponent_stat = opponent_pokemon['stats'][2]['base_stat']
+    elif stat_choice == '4':
+        my_stat = my_pokemon['stats'][3]['base_stat']
+        opponent_stat = opponent_pokemon['stats'][3]['base_stat']
+    elif stat_choice == '5':
+        my_stat = my_pokemon['stats'][4]['base_stat']
+        opponent_stat = opponent_pokemon['stats'][4]['base_stat']
+    elif stat_choice == '6':
+        my_stat = my_pokemon['stats'][5]['base_stat']
+        opponent_stat = opponent_pokemon['stats'][5]['base_stat']
+    else:
+        print('You did not select a stat!')
+        exit()
+    print('Your Stat:', my_stat)
+    print('Opponent Stat:', opponent_stat, '\n')
+
+
+    if my_stat > opponent_stat:
+        print('You Win!')
+    elif my_stat < opponent_stat:
+        print('You Lose!')
+    else:
+        print("It's a Draw")
+
+run()
+
